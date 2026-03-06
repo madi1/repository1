@@ -1,0 +1,5 @@
+yaml
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: # This line adds the manual button

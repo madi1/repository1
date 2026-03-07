@@ -8,14 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 public class App {
-
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
 
-    // Health check endpoint for Azure to verify the microservice is live
-    @GetMapping("/health")
-    public String health() {
-        return "Madi IT Consultancy Service is Online (Java 21)";
+    @GetMapping("/")
+    public String home() {
+        return "Madi Consultancy Java Service is Live on Azure!";
     }
 }

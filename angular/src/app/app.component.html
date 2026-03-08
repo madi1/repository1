@@ -2,25 +2,56 @@
     <!-- Hero Section -->
     <header class="bg-slate-900 text-white py-20 px-6 text-center">
         
-        <!-- DYNAMIC DATA FROM JAVA BACKEND -->
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 text-blue-400">
-            {{ messageFromJava }}
-        </h1>
+        <!-- START: JAVA DATA BINDING SECTION -->
+        @if (!messageFromJava) {
+            <!-- Loading State: Pulse animation for a professional banking feel -->
+            <div class="text-blue-400 animate-pulse text-2xl font-bold mb-4">
+                Connecting to Secure Consultancy Server...
+            </div>
+        } @else {
+            <!-- Success State: Displays the string from your Java Controller -->
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-blue-400">
+                {{ messageFromJava }}
+            </h1>
+        }
+        <!-- END: JAVA DATA BINDING SECTION -->
 
+        <h2 class="text-3xl md:text-5xl font-bold mb-4">Enterprise Architecture & Cloud Transformation</h2>
+        
         <p class="text-xl text-slate-400 max-w-2xl mx-auto">Available for projects in Jordan, Saudi Arabia, and the GCC.</p>
         <p class="text-xl text-slate-400 max-w-2xl mx-auto">Cell.: +962-79-778-2049</p>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">Email: madi.java.consultancy@gmail.com</p>
         
         <div class="mt-8">
-            <a href="mailto:madi.java.consultancy@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition">Book a Strategic Audit</a>
+            <a href="mailto:madi.java.consultancy@gmail.com" 
+               class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition inline-block">
+               Book a Strategic Audit
+            </a>
         </div>
     </header>
 
-    <!-- Core Expertise -->
+    <!-- Core Expertise Section -->
     <section class="max-w-6xl mx-auto py-20 px-6 grid md:grid-cols-3 gap-12">
-        <div class="p-8 bg-white shadow-sm border border-slate-100 rounded-xl">
+        <div class="p-8 bg-white shadow-sm border border-slate-100 rounded-xl hover:shadow-md transition">
             <h3 class="text-2xl font-bold mb-4 text-blue-600">Solution Architecture</h3>
-            <p class="text-slate-600">Microservices, JEE, and Spring Boot designs that ensure high availability.</p>
+            <p class="text-slate-600">Microservices, JEE, and Spring Boot designs that ensure high availability and enterprise-grade stability.</p>
         </div>
-        <!-- Add other cards as needed -->
+        
+        <div class="p-8 bg-white shadow-sm border border-slate-100 rounded-xl hover:shadow-md transition">
+            <h3 class="text-2xl font-bold mb-4 text-blue-600">Cloud & DevOps</h3>
+            <p class="text-slate-600">Hands-on leadership in Azure, AWS, Docker, and Kubernetes for scalable digital transformation.</p>
+        </div>
+        
+        <div class="p-8 bg-white shadow-sm border border-slate-100 rounded-xl hover:shadow-md transition">
+            <h3 class="text-2xl font-bold mb-4 text-blue-600">Fractional CTO</h3>
+            <p class="text-slate-600">Strategic oversight for cross-functional teams, ensuring technical roadmaps align with business goals.</p>
+        </div>
     </section>
+
+    <!-- Contact Footer -->
+    <footer class="bg-slate-100 py-12 text-center border-t border-slate-200">
+        <p class="text-slate-500 mb-2">Madi Information Technology Consultancy</p>
+        <p class="text-xl font-mono text-slate-800">Jordan | Saudi Arabia | GCC</p>
+        <p class="text-lg font-mono text-slate-600">Cell: +962-79-778-2049</p>
+    </footer>
 </div>

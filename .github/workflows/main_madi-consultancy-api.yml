@@ -19,7 +19,7 @@ jobs:
         working-directory: ./angular # Override just for this step
         run: |
           npm install
-          npm run build -- --output-path=dist
+          npm run build -- --configuration=production --output-path=dist
 
       - name: Set up Java 21
         uses: actions/setup-java@v4

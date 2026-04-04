@@ -1,3 +1,9 @@
+# heavy folders
+node_modules/
+target/
+.idea/
+.vscode/
+
 # Node
 node_modules/
 package-lock.json

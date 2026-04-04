@@ -1,1 +1,0 @@
-version: '3.8'\n\nservices:\n  angular:\n    image: node:14\n    working_dir: /app\n    volumes:\n      - ./path/to/angular:/app\n    ports:\n      - '4200:4200'\n    command: npm start\n\n  java:\n    image: openjdk:11\n    working_dir: /app\n    volumes:\n      - ./path/to/java:/app\n    ports:\n      - '8080:8080'\n    command: ./mvnw spring-boot:run\n

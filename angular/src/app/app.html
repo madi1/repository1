@@ -207,6 +207,13 @@
       margin-block: 51.5rem;
     }
 
+    .article-content img {
+      max-width: 100%;   /* Never wider than the container */
+      height: auto;      /* Maintain original aspect ratio */
+      display: block;    /* Prevent small gaps at the bottom */
+      margin: 1.5rem auto; /* Optional: adds space and centers them */
+      border-radius: 12px; /* Optional: matches your "Modern" look */
+    }
   }
 </style>
 
@@ -352,7 +359,7 @@
               <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                 We break free from the constraints of <strong>legacy monoliths</strong>. 
                 Our specialized migration path transforms aged systems into resilient, 
-                event-driven microservices using <strong>Apache Kafka</strong> and <strong>Docker/K8s</strong>.
+                event-driven microservices using <strong>Apache Kafka</strong> and <strong>Docker/Kubernetes(K8s)</strong>.
               </p>
             </div>
 

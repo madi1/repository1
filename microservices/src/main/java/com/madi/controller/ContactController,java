@@ -1,0 +1,19 @@
+@RestController
+@RequestMapping("/api")
+@CrossOrigin(origins = "*") // Adjust this for production security
+public class ContactController {
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @PostMapping("/book-audit")
+    public ResponseEntity<?> sendAuditEmail(@RequestBody Map<String, String> payload) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo("info@madi-consultancy.com");
+        message.setSubject("New Strategic Audit Request");
+        message.setText("From: " + payload.get("email") + "\n\nLetter:\n" + payload.get("letter"));
+        
+        mailSender.send(message);
+        return ResponseEntity.ok().build();
+    }
+}

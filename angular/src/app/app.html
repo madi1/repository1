@@ -230,10 +230,17 @@
         <br>
         <p class="text-2xl text-slate-400 max-w-2xl mx-auto">Bridging 34 years of veteran stability with modern Agile & Cloud-native agility across Jordan and the GCC.</p>
         <p class="text-2xl text-slate-400 max-w-2xl mx-auto">Java introduces Virtual Threads, which allow microservices to handle massive scale with minimal resource consumption</p>
-        <div class="mt-8">
-            <a href="mailto:madi.java.consultancy@gmail.com" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition">Book a Strategic Audit</a>
-            <button routerLink="/book-audit" class="audit-button">
-              Book a Strategic Audit
+        <div class="mt-8 flex justify-center gap-4">
+            <!-- Link for people who prefer their own email app -->
+            <a href="mailto:madi.java.consultancy@gmail.com" 
+              class="bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-lg font-semibold transition">
+              Email Us Directly
+            </a>
+            
+            <!-- Styled Angular button to open your custom form -->
+            <button routerLink="/book-audit" 
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition">
+                    Book a Strategic Audit
             </button>
         </div>
     </header>
@@ -445,7 +452,13 @@
       </div>
     </div>
   </div>
+  <div class="container mx-auto pb-20">
+    <router-outlet></router-outlet>
+  </div>
 </main>
+<div class="container mx-auto p-10">
+  <router-outlet></router-outlet>
+</div>
 <main>
 </main>
 <div class="bottom">

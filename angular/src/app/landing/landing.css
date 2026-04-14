@@ -1,0 +1,26 @@
+.company-logo {
+  width: 20%;
+  max-width: 400px;
+  height: auto;
+}
+
+.landing-content h1 {
+  font-size: 3rem; /* Adjust this value to your preferred size */
+  font-weight: bold;  /* Makes the text stand out more */
+  margin-top: 20px;   /* Adds spacing between the logo and the text */
+  text-align: center;
+}
+
+.landing-content p {
+  font-size: 2rem; /* Adjust this value to your preferred size */
+  font-weight: bold;  /* Makes the text stand out more */
+  margin-top: 20px;   /* Adds spacing between the logo and the text */
+  text-align: center;
+}
+
+.profile-pic {
+  max-width: 100%; /* It will never be wider than its parent container */
+  height: auto;    /* Maintains the aspect ratio */
+  display: block;  /* Removes the bottom gap common with images */
+  margin: 0 auto;  /* Centers it */
+}

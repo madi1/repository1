@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
-import { ContactFormComponent } from './contact-form/contact-form'; 
+import { Landing } from './landing/landing';
+import { ContactForm } from './contact-form/contact-form'; 
 
 export const routes: Routes = [
-  // ... your other routes (e.g., { path: '', component: HomeComponent }),
-  { 
-    path: 'book-audit', 
-    component: ContactFormComponent 
-  }
+  // This is the default "Yellow Pane" content
+  { path: '', component: Landing }, 
+  
+  // This is what shows when you click the button for contact
+  { path: 'book-audit', component: ContactForm } 
 ];

@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './contact-form.html',
   styleUrl: './contact-form.css'
 })
-export class ContactFormComponent {
+export class ContactForm {
   isSending = false; // Add this line
 
   constructor(private http: HttpClient) {}

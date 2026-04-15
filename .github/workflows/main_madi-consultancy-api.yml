@@ -69,6 +69,14 @@ jobs:
           client-id: ${{ secrets.MADICONSULTANCY_AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.MADICONSULTANCY_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.MADICONSULTANCY_AZURE_SUBSCRIPTION_ID }}
+          
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }}/microservices
+          acrName: madi1registry
+          acrUsername: ${{ secrets.MADICONSULTANCY_REGISTRY_USERNAME }}
+          acrPassword: ${{ secrets.ACR_PASSWORD }}
           containerAppName: madi-consultancy
           resourceGroup: DefaultResourceGroup-CHN
           environmentVariables: >
@@ -77,3 +85,5 @@ jobs:
             SPRING_MAIL_PORT=587
             SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
             SPRING_MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
+            SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+            SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true

@@ -69,14 +69,11 @@ jobs:
           client-id: ${{ secrets.MADICONSULTANCY_AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.MADICONSULTANCY_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.MADICONSULTANCY_AZURE_SUBSCRIPTION_ID }}
-
-      - name: Build and deploy Container App
-        uses: azure/container-apps-deploy-action@v1
-        with:
-          appSourcePath: ${{ github.workspace }}/microservices
-          acrName: madi1registry
-          acrUsername: ${{ secrets.MADICONSULTANCY_REGISTRY_USERNAME }}
-          acrPassword: ${{ secrets.ACR_PASSWORD }}
-          # ADD THESE TWO LINES BELOW
           containerAppName: madi-consultancy
           resourceGroup: DefaultResourceGroup-CHN
+          environmentVariables: >
+            EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=https://<YOUR_EUREKA_NAME>.azurewebsites.net/eureka/
+            SPRING_MAIL_HOST=smtp.gmail.com
+            SPRING_MAIL_PORT=587
+            SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
+            SPRING_MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}

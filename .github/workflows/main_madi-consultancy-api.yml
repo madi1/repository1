@@ -80,7 +80,7 @@ jobs:
           containerAppName: madi-consultancy
           resourceGroup: DefaultResourceGroup-CHN
           environmentVariables: >-
-            EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=https://madi-eureka.azurewebsites.net/eureka/
+            EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=https://azurewebsites.net
             SPRING_MAIL_HOST=smtp.gmail.com
             SPRING_MAIL_PORT=587 
             SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} 

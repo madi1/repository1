@@ -79,11 +79,11 @@ jobs:
           acrPassword: ${{ secrets.ACR_PASSWORD }}
           containerAppName: madi-consultancy
           resourceGroup: DefaultResourceGroup-CHN
-          environmentVariables: >
-            EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=https://azurewebsites.net
+          environmentVariables: >-
+            EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=https://madi-eureka.azurewebsites.net/eureka/
             SPRING_MAIL_HOST=smtp.gmail.com
-            SPRING_MAIL_PORT=587
-            SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
+            SPRING_MAIL_PORT=587 
+            SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} 
             SPRING_MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
             SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
             SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true

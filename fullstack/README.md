@@ -20,7 +20,7 @@ This folder is a lightweight wrapper project to run the existing Angular fronten
 ## Verify
 - Access `http://localhost:4200` and see payload from backend in UI.
 - Backend endpoint: `GET http://localhost:8080/api/consultancy` returns JSON:
-  - `payload`: `my name is ABC`
+  - `payload`: `my name is AI`
   - `message`: `Welcome to Madi Consultancy!`
   - `status`: `Backend Connected`
 

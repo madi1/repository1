@@ -16,7 +16,7 @@ public class ConsultancyController {
     public Map<String, String> getConsultancyDataonsultancyData() {
         Map<String, String> data = new HashMap<>();
         // Example string payload the front end can consume
-        data.put("payload", "my name is ABC");
+        data.put("payload", "my name is AI");
         data.put("message", "Welcome to Madi Consultancy!");
         data.put("status", "Backend Connected");
         return data;

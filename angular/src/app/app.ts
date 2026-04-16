@@ -26,7 +26,7 @@ export class App {
         throw new Error('HTTP ' + resp.status);
       }
       const json = await resp.json();
-      // expects { payload: 'my name is ABC', ... }
+      // expects { payload: 'my name is Madi', ... }
       this.backendPayload.set(json.payload ?? 'no payload');
       this.backendMessage.set(json.message ?? 'no message');
       this.backendStatus.set('ok');

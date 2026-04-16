@@ -26,17 +26,16 @@ jobs:
         with:
           java-version: '21'
           distribution: 'microsoft'
-
+      
       - name: Build Java with Maven
         run: |
-          # 1. Ensure the static resources folder exists
+          # 1. Clean any old files to ensure a fresh start
+          rm -rf src/main/resources/static/*
           mkdir -p src/main/resources/static
           
-          # 2. Force Copy (Using paths relative to microservices folder)
-          cp -r ../angular/dist/browser/* src/main/resources/static/ || \
-          cp -r ../angular/dist/angular/browser/* src/main/resources/static/ || \
-          cp -r ../angular/dist/* src/main/resources/static/ || \
-          echo "WARNING: No Angular build files found!"
+          # 2. Target the specific Angular 21 production output path
+          # In Angular 21, it's usually dist/[project-name]/browser
+          cp -r ../angular/dist/angular/browser/* src/main/resources/static/
           
           # 3. Build the JAR
           mvn package -DskipTests -Dskip.installnodenpm -Dskip.npm

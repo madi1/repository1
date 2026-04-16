@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-contact-form',
@@ -18,7 +19,9 @@ export class ContactForm {
     this.isSending = true; // Set to true when user clicks send
     
     // Replace with your microservice URL
-    this.http.post('http://localhost:8080/api/book-audit', formValue)
+    const url = `${environment.apiUrl}/api/book-audit`;
+
+    this.http.post(url, formValue)
       .subscribe({
         next: () => {
           alert('Success! Your audit request has been sent.');

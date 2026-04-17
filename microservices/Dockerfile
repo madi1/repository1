@@ -12,21 +12,23 @@ COPY --from=builder /app/spring-boot-loader/ ./
 COPY --from=builder /app/snapshot-dependencies/ ./
 COPY --from=builder /app/application/ ./
 
-# Generate CDS archive (This is the speed boost)
+# Generate CDS archive - App will start, refresh context, and exit
 RUN java -XX:ArchiveClassesAtExit=application.jsa \
-         -Dspring.context.exit=onRefresh \
-         -cp ".:BOOT-INF/classes:BOOT-INF/lib/*" \
-         org.springframework.boot.loader.launch.JarLauncher
+    -Dspring.context.exit=onRefresh \
+    -cp ".:BOOT-INF/classes:BOOT-INF/lib/*" \
+    org.springframework.boot.loader.launch.JarLauncher
 
-# Stage 3: Runtime (Final fast-starting image)
+# Stage 3: Runtime
 FROM ://microsoft.com
 WORKDIR /app
+# Only copy the extracted layers and the generated JSA file
 COPY --from=trainer /app/ ./
+
 EXPOSE 8080
 
-# Run with CDS + Tiered Compilation + Lazy Init
+# Final optimized startup command using Shared Archive
 ENTRYPOINT ["java", \
-            "-XX:SharedArchiveFile=application.jsa", \
-            "-XX:TieredStopAtLevel=1", \
-            "-Dspring.main.lazy-initialization=true", \
-            "org.springframework.boot.loader.launch.JarLauncher"]
+    "-XX:SharedArchiveFile=application.jsa", \
+    "-XX:TieredStopAtLevel=1", \
+    "-Dspring.main.lazy-initialization=true", \
+    "org.springframework.boot.loader.launch.JarLauncher"]

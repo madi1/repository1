@@ -1,15 +1,32 @@
-# Use the Java 21 runtime
-FROM eclipse-temurin:21-jre-alpine
-
-# Set the working directory
+# Stage 1: Extraction
+FROM ://microsoft.com AS builder
 WORKDIR /app
-
-# Copy the JAR that was already built by the GitHub Action
-# The Action downloads the artifact into this folder
 COPY target/*.jar app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
 
-# Expose the port
+# Stage 2: Training (Creates the 'application.jsa' speed file)
+FROM ://microsoft.com AS trainer
+WORKDIR /app
+COPY --from=builder /app/dependencies/ ./
+COPY --from=builder /app/spring-boot-loader/ ./
+COPY --from=builder /app/snapshot-dependencies/ ./
+COPY --from=builder /app/application/ ./
+
+# Generate CDS archive (This is the speed boost)
+RUN java -XX:ArchiveClassesAtExit=application.jsa \
+         -Dspring.context.exit=onRefresh \
+         -cp ".:BOOT-INF/classes:BOOT-INF/lib/*" \
+         org.springframework.boot.loader.launch.JarLauncher
+
+# Stage 3: Runtime (Final fast-starting image)
+FROM ://microsoft.com
+WORKDIR /app
+COPY --from=trainer /app/ ./
 EXPOSE 8080
 
-# Run the app
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run with CDS + Tiered Compilation + Lazy Init
+ENTRYPOINT ["java", \
+            "-XX:SharedArchiveFile=application.jsa", \
+            "-XX:TieredStopAtLevel=1", \
+            "-Dspring.main.lazy-initialization=true", \
+            "org.springframework.boot.loader.launch.JarLauncher"]

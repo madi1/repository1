@@ -1,11 +1,11 @@
 # Stage 1: Extraction
-FROM ://microsoft.com AS builder
+FROM microsoft.com AS builder
 WORKDIR /app
 COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
 # Stage 2: Training (Creates the 'application.jsa' speed file)
-FROM ://microsoft.com AS trainer
+FROM microsoft.com AS trainer
 WORKDIR /app
 COPY --from=builder /app/dependencies/ ./
 COPY --from=builder /app/spring-boot-loader/ ./
@@ -19,7 +19,7 @@ RUN java -XX:ArchiveClassesAtExit=application.jsa \
     org.springframework.boot.loader.launch.JarLauncher
 
 # Stage 3: Runtime
-FROM ://microsoft.com
+FROM microsoft.com
 WORKDIR /app
 COPY --from=trainer /app/ ./
 

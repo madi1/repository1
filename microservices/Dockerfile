@@ -1,5 +1,5 @@
 # Stage 1: Extraction
-FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8 AS builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 as builder
 WORKDIR /app
 COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract

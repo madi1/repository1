@@ -1,15 +1,12 @@
-# Stage 1: Extraction
-
 # Stage 1: Extraction (Unpacks the JAR into layers)
-FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu AS builder
+FROM eclipse-temurin:21-jdk-alpine AS builder
 WORKDIR /app
 COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-# Stage 2: Runtime (The actual image that runs in Azure)
-FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu
+# Stage 2: Runtime (The final small image for Azure)
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-# Copy the layers from the builder stage
 COPY --from=builder /app/dependencies/ ./
 COPY --from=builder /app/spring-boot-loader/ ./
 COPY --from=builder /app/snapshot-dependencies/ ./

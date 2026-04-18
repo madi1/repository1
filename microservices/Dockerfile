@@ -1,16 +1,22 @@
 # Stage 1: Extraction
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 as builder
+
+# Stage 1: Extraction (Unpacks the JAR into layers)
+FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu AS builder
 WORKDIR /app
 COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-# Stage 2: Training (Creates the 'application.jsa' speed file)
-FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu AS trainer
+# Stage 2: Runtime (The actual image that runs in Azure)
+FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu
 WORKDIR /app
+# Copy the layers from the builder stage
 COPY --from=builder /app/dependencies/ ./
 COPY --from=builder /app/spring-boot-loader/ ./
 COPY --from=builder /app/snapshot-dependencies/ ./
 COPY --from=builder /app/application/ ./
+
+# Use the Spring Boot Launcher to start the app (Faster than java -jar)
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
 
 # Generate CDS archive
 RUN java -XX:ArchiveClassesAtExit=application.jsa \

@@ -5,7 +5,7 @@ COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
 # Stage 2: Training (Creates the 'application.jsa' speed file)
-FROM mcr.microsoft.com AS trainer
+FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu AS trainer
 WORKDIR /app
 COPY --from=builder /app/dependencies/ ./
 COPY --from=builder /app/spring-boot-loader/ ./

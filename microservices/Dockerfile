@@ -1,36 +1,25 @@
-# Stage 1: Build & Extract (The "Trainer" stage)
-FROM eclipse-temurin:21-jdk-alpine AS trainer
+# Stage 1: Build & Extract
+FROM eclipse-temurin:21-jdk-alpine AS builder
 WORKDIR /app
+# Ensure the JAR exists from your Maven build
 COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-# Stage 2: Generate CDS Archive
-FROM eclipse-temurin:21-jdk-alpine AS optimizer
-WORKDIR /app
-COPY --from=trainer /app/dependencies/ ./
-COPY --from=trainer /app/spring-boot-loader/ ./
-COPY --from=trainer /app/snapshot-dependencies/ ./
-COPY --from=trainer /app/application/ ./
-
-# Disable DB, Flyway, and Hibernate during the training run
-RUN java -XX:ArchiveClassesAtExit=application.jsa \
-         -Dspring.context.exit=onRefresh \
-         -Dspring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration \
-         -cp ".:BOOT-INF/classes:BOOT-INF/lib/*" \
-         org.springframework.boot.loader.launch.JarLauncher
-
-# Stage 3: Final Runtime (The "Cheap & Fast" stage)
-FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu
+# Stage 2: Final Runtime (The Cheap & Fast stage)
+FROM ://microsoft.com
 WORKDIR /app
 
-# Copy everything from the optimizer stage
-COPY --from=optimizer /app/ ./
+# Copy the layers directly from the builder
+COPY --from=builder /app/dependencies/ ./
+COPY --from=builder /app/spring-boot-loader/ ./
+COPY --from=builder /app/snapshot-dependencies/ ./
+COPY --from=builder /app/application/ ./
 
 EXPOSE 8080
 
-# Performance flags to make Spring Boot start fast and stay light
+# Performance flags for small-budget instances
+# We removed the .jsa file reference so it won't error out
 ENTRYPOINT ["java", \
-            "-XX:SharedArchiveFile=application.jsa", \
             "-XX:TieredStopAtLevel=1", \
             "-Dspring.main.lazy-initialization=true", \
             "org.springframework.boot.loader.launch.JarLauncher"]

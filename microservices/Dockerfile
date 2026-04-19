@@ -11,8 +11,11 @@ COPY --from=trainer /app/dependencies/ ./
 COPY --from=trainer /app/spring-boot-loader/ ./
 COPY --from=trainer /app/snapshot-dependencies/ ./
 COPY --from=trainer /app/application/ ./
+
+# Disable DB, Flyway, and Hibernate during the training run
 RUN java -XX:ArchiveClassesAtExit=application.jsa \
          -Dspring.context.exit=onRefresh \
+         -Dspring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration \
          -cp ".:BOOT-INF/classes:BOOT-INF/lib/*" \
          org.springframework.boot.loader.launch.JarLauncher
 

@@ -5,7 +5,7 @@ COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
 # Stage 2: Final Runtime (Clean & Simple)
-FROM ://microsoft.com
+FROM mcr.microsoft.com/openjdk/jdk:21-mariner
 WORKDIR /app
 
 # Copy the extracted layers from the builder stage

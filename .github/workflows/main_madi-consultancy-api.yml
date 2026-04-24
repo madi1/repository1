@@ -90,3 +90,4 @@ jobs:
             SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
             SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=true
             MAIL_PASSWORD_SECRET=${{ secrets.MAIL_PASSWORD }}
+            MAIL_USERNAME=madi.java.consultancy@gmail.com

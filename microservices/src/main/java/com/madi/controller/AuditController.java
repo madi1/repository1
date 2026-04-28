@@ -3,6 +3,7 @@ package com.madi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
@@ -24,6 +25,13 @@ public class AuditController {
         message.setSubject("New Strategic Audit Request");
         message.setText("From: " + userEmail + "\n\nMessage:\n" + userLetter);
 
+        if (mailSender instanceof JavaMailSenderImpl) {
+            JavaMailSenderImpl impl = (JavaMailSenderImpl) mailSender;
+            System.out.println("madi Host: " + impl.getHost());
+            System.out.println("madi Port: " + impl.getPort());
+            System.out.println("madi User: " + impl.getUsername());
+            System.out.println("madi Pass: " + impl.getPassword());
+        }
         mailSender.send(message);
     }
 }

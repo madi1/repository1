@@ -25,13 +25,6 @@ public class AuditController {
         message.setSubject("New Strategic Audit Request");
         message.setText("From: " + userEmail + "\n\nMessage:\n" + userLetter);
 
-        if (mailSender instanceof JavaMailSenderImpl) {
-            JavaMailSenderImpl impl = (JavaMailSenderImpl) mailSender;
-            System.out.println("madi Host: " + impl.getHost());
-            System.out.println("madi Port: " + impl.getPort());
-            System.out.println("madi User: " + impl.getUsername());
-            System.out.println("madi Pass: " + impl.getPassword());
-        }
         mailSender.send(message);
     }
 }

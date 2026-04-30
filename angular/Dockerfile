@@ -1,29 +1,17 @@
-# Use the official Node.js image as the base image
-FROM node:14 as build
+# Use a lightweight Alpine JRE to minimize image size
+FROM eclipse-temurin:21-jre-alpine
 
-# Set the working directory
-WORKDIR /app
+WORKDIR /application
 
-# Copy package.json and package-lock.json
-COPY angular/package*.json ./
+# Copy the extracted layers from your CI/CD build step
+# These layers allow Azure to cache dependencies, speeding up pulls
+COPY target/extracted/dependencies/ ./
+COPY target/extracted/spring-boot-loader/ ./
+COPY target/extracted/snapshot-dependencies/ ./
+COPY target/extracted/application/ ./
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application source code
-COPY angular/ .
-
-# Build the Angular application
-RUN npm run build --prod
-
-# Use an Nginx image to serve the app
-FROM nginx:alpine
-
-# Copy built files from the previous step
-COPY --from=build /app/dist/your-angular-app-name /usr/share/nginx/html
-
-# Expose the port on which Nginx listens
-EXPOSE 80
-
-# Start Nginx server
-CMD ["nginx", "-g", "daemon off;"]
+# JVM flags to speed up startup:
+# 1. TieredCompilation: Speeds up the initial boot process
+# 2. JarLauncher: The most efficient way to start layered Spring apps
+ENV JAVA_TOOL_OPTIONS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]

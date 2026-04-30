@@ -14,21 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build Angular
-        working-directory: ./angular
-        run: |
-          npm install
-          npx ng build --configuration production
-
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'temurin' # Changed to Temurin for better Docker Hub compatibility
+          distribution: 'temurin'
 
       - name: Build Java with Maven
-        run: |
-          mvn package -DskipTests -Dskip.installnodenpm -Dskip.npm
+        run: mvn package -DskipTests -Dskip.installnodenpm -Dskip.npm
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -52,7 +45,6 @@ jobs:
           name: java-app
           path: ${{ github.workspace }}/microservices/target
 
-      # --- NEW STEP: Extract the JAR into layers for the Dockerfile ---
       - name: Set up Java 21 for Extraction
         uses: actions/setup-java@v4
         with:
@@ -76,10 +68,10 @@ jobs:
         with:
           appSourcePath: ${{ github.workspace }}/microservices
           acrName: madi1registry
-          acrUsername: ${{ secrets.MADICONSULTANCY_REGISTRY_USERNAME }}
-          acrPassword: ${{ secrets.ACR_PASSWORD }}
           containerAppName: madi-consultancy
           resourceGroup: DefaultResourceGroup-CHN
+          # FIXED: Parameter name must be yamlConfigPath
+          yamlConfigPath: ${{ github.workspace }}/microservices/container-config.json
           environmentVariables: >-
             SPRING_PROFILES_ACTIVE=prod
             SPRING_MAIL_HOST=smtp.gmail.com

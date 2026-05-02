@@ -14,19 +14,17 @@ COPY --from=builder /app/spring-boot-loader/ ./
 COPY --from=builder /app/snapshot-dependencies/ ./
 COPY --from=builder /app/application/ ./
 
-# --- THE MAGIC STEP: Generate CDS Archive ---
-# We use an explicit classpath here so it's guaranteed to match the runtime
+# --- Generate CDS Archive ---
 RUN java -XX:ArchiveClassesAtExit=app.jsa \
     -Dspring.context.exit-on-refresh=true \
     -cp "dependencies:spring-boot-loader:snapshot-dependencies:application" \
     org.springframework.boot.loader.launch.JarLauncher || true
 
 # --- Baked-in Optimizations ---
-# These will now be the defaults unless Azure explicitly overrides them
 ENV JAVA_TOOL_OPTIONS="-XX:TieredStopAtLevel=1 -XX:SharedArchiveFile=app.jsa -Djava.net.preferIPv4Stack=true -Djava.security.egd=file:/dev/./urandom -Dsun.net.inetaddr.ttl=60 -Dspring.cloud.config.enabled=false"
 ENV SPRING_MAIN_LAZY_INITIALIZATION=true
 
 EXPOSE 8080
 
-# CRITICAL: The -cp here MUST match the -cp used in the RUN step above exactly
-ENTRYPOINT ["java", "-XX:TieredStopAtLevel=1", "-XX:SharedArchiveFile=app.jsa", "-cp", "dependencies:spring-boot-loader:snapshot-dependencies:application", "org.springframework.boot.loader.launch.JarLauncher"]
+# Clean Entrypoint (JVM will auto-read JAVA_TOOL_OPTIONS)
+ENTRYPOINT ["java", "-cp", "dependencies:spring-boot-loader:snapshot-dependencies:application", "org.springframework.boot.loader.launch.JarLauncher"]

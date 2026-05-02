@@ -23,7 +23,7 @@ RUN java -XX:ArchiveClassesAtExit=app.jsa \
 
 # --- Baked-in Optimizations ---
 # These will now be the defaults unless Azure explicitly overrides them
-ENV JAVA_TOOL_OPTIONS="-XX:TieredStopAtLevel=1 -XX:SharedArchiveFile=app.jsa"
+ENV JAVA_TOOL_OPTIONS="-XX:TieredStopAtLevel=1 -XX:SharedArchiveFile=app.jsa -Djava.net.preferIPv4Stack=true -Djava.security.egd=file:/dev/./urandom -Dsun.net.inetaddr.ttl=60 -Dspring.cloud.config.enabled=false"
 ENV SPRING_MAIN_LAZY_INITIALIZATION=true
 
 EXPOSE 8080

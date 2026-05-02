@@ -1,5 +1,5 @@
 # Stage 1: Build (Using an updated LTS Node version)
-FROM node:20-alpine as build
+FROM node:20-jammy as build
 WORKDIR /app
 
 # Install dependencies using 'npm ci' for faster, consistent builds
@@ -11,7 +11,7 @@ COPY . .
 RUN npm run build --configuration=production
 
 # Stage 2: Serve with Nginx (Optimized for performance)
-FROM nginx:alpine
+FROM nginx:jammy
 
 # IMPORTANT: Replace 'your-actual-app-name' with the name in your angular.json
 COPY --from=build /app/dist/your-actual-app-name /usr/share/nginx/html

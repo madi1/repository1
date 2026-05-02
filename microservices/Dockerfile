@@ -1,11 +1,11 @@
 # --- Stage 1: Build & Extract ---
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM eclipse-temurin:21-jdk-jammy AS builder
 WORKDIR /app
 COPY target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
 # --- Stage 2: Final Runtime ---
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # Copy the extracted layers

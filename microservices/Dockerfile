@@ -19,3 +19,4 @@ EXPOSE 8080
 
 # Use the standard JAR execution
 ENTRYPOINT ["java", "-jar", "app.jar"]
+

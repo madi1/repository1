@@ -46,6 +46,7 @@ jobs:
       - name: Extract Layers
         run: |
           cd microservices
+          # Matches the JAR name in your target folder
           java -Djarmode=layertools -jar target/consultancy-service-1.0.0.jar extract --destination target/extracted
       - name: Login to Azure
         uses: azure/login@v2
@@ -58,7 +59,9 @@ jobs:
         with:
           appSourcePath: ${{ github.workspace }}/microservices
           acrName: madi1registry
-          containerAppName: madi-consultancy-api # Unique name for backend
+          acrUsername: madi1registry
+          acrPassword: ${{ secrets.ACR_PASSWORD }}
+          containerAppName: madi-consultancy-api
           resourceGroup: DefaultResourceGroup-CHN
           environmentVariables: >-
             SPRING_PROFILES_ACTIVE=prod
@@ -79,8 +82,9 @@ jobs:
       - name: Build and deploy Frontend
         uses: azure/container-apps-deploy-action@v1
         with:
-          # Ensure this path points to your Angular project folder
-          appSourcePath: ${{ github.workspace }}/frontend 
+          appSourcePath: ${{ github.workspace }}/frontend
           acrName: madi1registry
-          containerAppName: madi-consultancy-ui # Unique name for frontend
+          acrUsername: madi1registry
+          acrPassword: ${{ secrets.ACR_PASSWORD }}
+          containerAppName: madi-consultancy-ui
           resourceGroup: DefaultResourceGroup-CHN

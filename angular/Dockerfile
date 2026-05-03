@@ -1,23 +1,18 @@
-# Stage 1: Build (Using an updated LTS Node version)
+# Stage 1: Build
 FROM node:20-jammy as build
 WORKDIR /app
-
-# Install dependencies using 'npm ci' for faster, consistent builds
 COPY package*.json ./
 RUN npm ci
-
-# Copy source and build
 COPY . .
 RUN npm run build --configuration=production
 
-# Stage 2: Serve with Nginx (Optimized for performance)
+# Stage 2: Serve
 FROM nginx:jammy
+# Adjust 'consultancy-frontend' to match your angular.json 'outputPath'
+COPY --from=build /app/dist/consultancy-frontend /usr/share/nginx/html
 
-# IMPORTANT: Replace 'your-actual-app-name' with the name in your angular.json
-COPY --from=build /app/dist/your-actual-app-name /usr/share/nginx/html
-
-# (Optional) Copy a custom nginx config to handle Angular routing
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# REQUIRED: Copy the config to handle Angular routing & internal "ping"
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

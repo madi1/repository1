@@ -18,4 +18,4 @@ ENV SPRING_MAIN_LAZY_INITIALIZATION=true
 EXPOSE 8080
 
 # Use the standard JAR execution
-ENTRYPOINT ["java", "-jar", "app.jar"]x
+ENTRYPOINT ["java", "-jar", "app.jar"]

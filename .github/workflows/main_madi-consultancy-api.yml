@@ -67,7 +67,7 @@ jobs:
       - name: Build and deploy Frontend
         uses: azure/container-apps-deploy-action@v1
         with:
-          appSourcePath: ${{ github.workspace }}/frontend
+          appSourcePath: ${{ github.workspace }}/angular
           acrName: madi1registry
           acrUsername: madi1registry
           acrPassword: ${{ secrets.ACR_PASSWORD }}

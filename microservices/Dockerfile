@@ -1,30 +1,21 @@
-# --- Stage 1: Build & Extract ---
+# --- Stage 1: Build ---
 FROM eclipse-temurin:21-jdk-jammy AS builder
 WORKDIR /app
-COPY target/*.jar app.jar
-RUN java -Djarmode=layertools -jar app.jar extract
+COPY . .
+RUN ./mvnw package -DskipTests
 
-# --- Stage 2: Final Runtime ---
+# --- Stage 2: Runtime ---
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
-# Copy the extracted layers
-COPY --from=builder /app/dependencies/ ./
-COPY --from=builder /app/spring-boot-loader/ ./
-COPY --from=builder /app/snapshot-dependencies/ ./
-COPY --from=builder /app/application/ ./
+# Copy just the final JAR file
+COPY --from=builder /app/target/*.jar app.jar
 
-# --- Generate CDS Archive ---
-RUN java -XX:ArchiveClassesAtExit=app.jsa \
-    -Dspring.context.exit-on-refresh=true \
-    -cp "dependencies:spring-boot-loader:snapshot-dependencies:application" \
-    org.springframework.boot.loader.JarLauncher || true
-
-# --- Baked-in Optimizations ---
-ENV JAVA_TOOL_OPTIONS="-XX:TieredStopAtLevel=1 -XX:SharedArchiveFile=app.jsa -Djava.net.preferIPv4Stack=true -Djava.security.egd=file:/dev/./urandom -Dsun.net.inetaddr.ttl=60 -Dspring.cloud.config.enabled=false"
+# Baked-in Optimizations (Keep these for performance)
+ENV JAVA_TOOL_OPTIONS="-XX:TieredStopAtLevel=1 -Djava.net.preferIPv4Stack=true -Djava.security.egd=file:/dev/./urandom -Dsun.net.inetaddr.ttl=60"
 ENV SPRING_MAIN_LAZY_INITIALIZATION=true
 
 EXPOSE 8080
 
-# Clean Entrypoint (JVM will auto-read JAVA_TOOL_OPTIONS)
-ENTRYPOINT ["java", "-cp", "dependencies:spring-boot-loader:snapshot-dependencies:application", "org.springframework.boot.loader.JarLauncher"]
+# Use the standard JAR execution
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -27,4 +27,4 @@ ENV SPRING_MAIN_LAZY_INITIALIZATION=true
 EXPOSE 8080
 
 # Clean Entrypoint (JVM will auto-read JAVA_TOOL_OPTIONS)
-ENTRYPOINT ["java", "-cp", "dependencies:spring-boot-loader:snapshot-dependencies:application", "org.springframework.boot.loader.launch.JarLauncher"]
+ENTRYPOINT ["java", "-cp", "dependencies:spring-boot-loader:snapshot-dependencies:application", "org.springframework.boot.loader.JarLauncher"]

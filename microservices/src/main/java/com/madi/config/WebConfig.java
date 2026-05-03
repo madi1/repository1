@@ -14,12 +14,13 @@ public class WebConfig implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        // Replace with your actual Angular Azure URL
-                        // While testing locally, you can use "http://localhost:4200"
-                        .allowedOrigins("https://azurecontainerapps.io")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
+                    .allowedOrigins(
+                        "http://localhost:4200", 
+                        "https://madi-consultancy-ui.calmsmoke-fd7a912c.eastus.azurecontainerapps.io"
+                    )
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .allowedHeaders("*")
+                    .allowCredentials(true);
             }
         };
     }

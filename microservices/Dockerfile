@@ -18,7 +18,7 @@ COPY --from=builder /app/application/ ./
 RUN java -XX:ArchiveClassesAtExit=app.jsa \
     -Dspring.context.exit-on-refresh=true \
     -cp "dependencies:spring-boot-loader:snapshot-dependencies:application" \
-    org.springframework.boot.loader.launch.JarLauncher || true
+    org.springframework.boot.loader.JarLauncher || true
 
 # --- Baked-in Optimizations ---
 ENV JAVA_TOOL_OPTIONS="-XX:TieredStopAtLevel=1 -XX:SharedArchiveFile=app.jsa -Djava.net.preferIPv4Stack=true -Djava.security.egd=file:/dev/./urandom -Dsun.net.inetaddr.ttl=60 -Dspring.cloud.config.enabled=false"

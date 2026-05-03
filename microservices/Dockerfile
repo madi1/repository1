@@ -1,8 +1,11 @@
 # --- Stage 1: Build ---
 FROM eclipse-temurin:21-jdk-jammy AS builder
 WORKDIR /app
+
+# Install Maven manually
+RUN apt-get update && apt-get install -y maven
+
 COPY . .
-# Use 'mvn' instead of 'mvnw'
 RUN mvn package -DskipTests
 
 # --- Stage 2: Runtime ---

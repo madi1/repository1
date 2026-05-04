@@ -8,7 +8,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*") // Allows your Angular app to talk to this API
 public class AuditController {
 
     @Autowired

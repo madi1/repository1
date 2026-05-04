@@ -1,6 +1,5 @@
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*") // Adjust this for production security
 public class ContactController {
 
     @Autowired

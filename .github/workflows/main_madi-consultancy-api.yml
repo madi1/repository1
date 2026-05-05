@@ -1,41 +1,33 @@
-name: CI/CD - Split Microservices Deployment
-
+name: CI/CD - Backend Only Deployment
 on:
   push:
     branches: [ main ]
     paths:
-      - 'angular/**'
-      - 'microservices/**'
+      - 'microservices/**' # Trigger ONLY for backend changes
       - '.github/workflows/**'
-  workflow_dispatch:
-
-permissions:
-  id-token: write
-  contents: read
 
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
-    # Removed the strict 'if' check so the 'paths' filter above handles it
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
+          
       - name: Build Java with Maven
         run: cd microservices && mvn package -DskipTests
-      - name: Extract Spring Boot Layers
-        run: |
-          cd microservices
-          java -Djarmode=layertools -jar target/consultancy-service-1.0.0.jar extract --destination target/extracted
+        
       - name: Login to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.MADICONSULTANCY_AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.MADICONSULTANCY_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.MADICONSULTANCY_AZURE_SUBSCRIPTION_ID }}
+
       - name: Deploy Backend
         uses: azure/container-apps-deploy-action@v1
         with:
@@ -50,24 +42,3 @@ jobs:
             SPRING_PROFILES_ACTIVE=prod
             SPRING_MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
             SPRING_MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
-
-  deploy-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.MADICONSULTANCY_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.MADICONSULTANCY_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.MADICONSULTANCY_AZURE_SUBSCRIPTION_ID }}
-      - name: Build and deploy Frontend
-        uses: azure/container-apps-deploy-action@v1
-        with:
-          appSourcePath: ${{ github.workspace }}/angular
-          acrName: madi1registry
-          acrUsername: madi1registry
-          acrPassword: ${{ secrets.ACR_PASSWORD }}
-          containerAppName: madi-consultancy-ui
-          resourceGroup: DefaultResourceGroup-CHN
-          imageToBuild: madi1registry.azurecr.io/madi-consultancy-ui:${{ github.sha }}

@@ -2,9 +2,10 @@ name: CI/CD - Backend Only Deployment
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'microservices/**' # Trigger ONLY for backend changes
-      - '.github/workflows/**'
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   deploy-backend:

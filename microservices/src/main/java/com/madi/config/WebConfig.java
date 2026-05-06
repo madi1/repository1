@@ -15,9 +15,9 @@ public class WebConfig implements WebMvcConfigurer {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                            "http://localhost:4200", 
-                            "https://kind-cliff-024fe1b10.7.azurestaticapps.net"
-                            "https://maditech.online"
+                            "http://localhost:4200",
+                            "https://kind-cliff-024fe1b10.7.azurestaticapps.net",
+                            "https://maditech.online",
                             "https://www.maditech.online"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")

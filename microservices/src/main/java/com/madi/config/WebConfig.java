@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
                 registry.addMapping("/**")
                         .allowedOrigins(
                             "http://localhost:4200", 
-                            "https://kind-cliff-024fe1b10.7.azurestaticapps.net" // Add your EXACT URL here
+                            "https://kind-cliff-024fe1b10.7.azurestaticapps.net"
                             "https://maditech.online"
                             "https://www.maditech.online"
                         )

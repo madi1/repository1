@@ -20,7 +20,7 @@
   header {
     background-color: #0f172a; /* bg-slate-900 */
     color: white;
-    padding: 0.2rem 1.5rem;
+    padding: 0.2rem 1.5rem 0.2rem 1.5rem;
     text-align: center;
   }
 
@@ -89,7 +89,6 @@
   }
 </style>
 
-<!-- Hero Section -->
 <header>
     <h1 style="font-size: 2rem; font-weight: bold; margin-top: 0.1rem; margin-bottom: 0.1rem;">Madi Information Technology Consultancy</h1>
     <h2 style="font-size: 1.25rem; margin-top: 0.1rem; margin-bottom: 0.1rem; color: #94a3b8;">Enterprise Architecture & Cloud Transformation</h2>
@@ -113,36 +112,21 @@
 
 <main>
   <div class="content">
-    <!-- Left Side: Permanent Backend Info -->
     <div class="left-side">
-      <h2>Backend Status</h2>
-      <p>Raw payload: {{ backendPayload() }}</p>
-      <p>Raw message: {{ backendMessage() }}</p>
-      <p>Status: {{ backendStatus() }}</p>
-    </div>
+      <p>
+        Accelerate your company's growth with professional <strong>I.T. consulting</strong>. Whether you require optimized <strong>Enterprise Architecture</strong> planning, scalable cloud migrations, or a thorough software code review, scheduling a dedicated <strong>strategic I.T. consultation</strong> ensures your operations run on modern, future-proof infrastructures. Let us bridge the gap between complex software engineering challenges and your long-term business roadmap.
+      </p>
+   </div>
 
-    <!-- Middle Pane: The "Window" that swaps content -->
     <div class="middle">
       <router-outlet></router-outlet>
     </div>
 
-    <!-- Right Side: Links -->
     <div class="right-side">
-      <div class="pill-group">
-        @for (item of [
-          { title: 'Explore the Docs', link: 'https://angular.dev' },
-          { title: 'Learn with Tutorials', link: 'https://angular.dev' },
-          { title: 'CLI Docs', link: 'https://angular.dev' },
-          { title: 'Angular DevTools', link: 'https://angular.dev' }
-        ]; track item.title) {
-          <a class="pill" [href]="item.link" target="_blank" rel="noopener">
-            <span>{{ item.title }}</span>
-            <svg style="margin-left: 0.5rem" xmlns="http://w3.org" height="14" viewBox="0 -960 960 960" width="14">
-                <path fill="currentColor" d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 312-312H544v-80h216v216h-80v-100L388-332Z"/>
-            </svg>
-          </a>
-        }
-      </div>
-    </div>
+      <h2>Backend Status</h2>
+      <p>Raw payload: {{ backendPayload() }}</p>
+      <p>Raw message: {{ backendMessage() }}</p>
+      <p>Status: {{ backendStatus() }}</p>
+     </div>
   </div>
 </main>

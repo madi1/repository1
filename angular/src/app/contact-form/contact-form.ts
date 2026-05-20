@@ -19,12 +19,12 @@ export class ContactForm {
     this.isSending = true; // Set to true when user clicks send
     
     // Replace with your microservice URL
-    const url = `${environment.apiUrl}/api/book-audit`;
+    const url = `${environment.apiUrl}/api/book-consultation`;
 
     this.http.post(url, formValue)
       .subscribe({
         next: () => {
-          alert('Success! Your audit request has been sent.');
+          alert('Success! Your consultation request has been sent.');
           this.isSending = false;
         },
         error: (err) => {

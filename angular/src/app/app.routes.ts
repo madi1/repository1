@@ -7,5 +7,5 @@ export const routes: Routes = [
   { path: '', component: Landing }, 
   
   // This is what shows when you click the button for contact
-  { path: 'book-audit', component: ContactForm } 
+  { path: 'book-consultation', component: ContactForm } 
 ];

@@ -8,19 +8,19 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class AuditController {
+public class ConsultationController {
 
     @Autowired
     private JavaMailSender mailSender;
 
-    @PostMapping("/book-audit")
-    public void sendAuditRequest(@RequestBody Map<String, String> request) {
+    @PostMapping("/book-consultation")
+    public void sendConsultationRequest(@RequestBody Map<String, String> request) {
         String userEmail = request.get("email");
         String userLetter = request.get("letter");
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo("madi.java.consultancy@gmail.com"); // Your inbox
-        message.setSubject("New Strategic Audit Request");
+        message.setSubject("New Strategic Consultation Request");
         message.setText("From: " + userEmail + "\n\nMessage:\n" + userLetter);
 
         mailSender.send(message);
